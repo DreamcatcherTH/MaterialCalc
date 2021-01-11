@@ -1,0 +1,31 @@
+table {
+ width: 20%;
+ background: rgb(138, 96, 96);
+ color: rgb(0, 0, 0);
+ border-spacing: 1px;
+ border: 1px solid black;
+ margin: auto;
+}
+td, th {
+ background: rgb(255, 255, 255);
+ padding: 5px;
+}
+
+.step {
+    text-align: center;
+}
+
+.can
+
+.next-but {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    border: 1px solid white;
+    padding: 0 1rem;
+}
+
+h1 {
+    text-align: center;
+}

@@ -27,5 +27,25 @@ td, th {
 }
 
 h1 {
+    margin: 0;
     text-align: center;
+    padding: 0px;
+    border-bottom: 4px solid white;
+    padding: 15px 20px;
+}
+
+button {
+    width: 5%;
+    height: 50px;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    font-family: 'Orbitron', serif;
+    background: #ffffff;
+    border-spacing: 1px;
+    border: 1px solid black;
+    margin: auto;
+    display: flex;
+    /* text-align: center;
+    position:absolute; */
 }

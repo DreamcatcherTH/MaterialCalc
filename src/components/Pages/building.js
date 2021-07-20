@@ -1,54 +1,92 @@
 import React, { Component } from 'react';
-import State from '../State/state';
-import { Link } from 'react-router-dom';
+import store from '../state/store';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+/* import { connect } from 'react-redux';
+import actions from '../actions'; */
 
-export default class Building extends Component {
+class Building extends Component {
     constructor(props) {
         super(props);
-        this.state = { value: '' };
+        this.state = {
+            selectedBuilding: 'building1'
+        };
 
-        this.handleBuildingChange = this.handleBuildingChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleHouseChange = this.handleHouseChange.bind(this);
+        this.handleGarageChange = this.handleGarageChange.bind(this);
+        this.handleBuildingSubmit = this.handleBuildingSubmit.bind(this);
     }
 
-    handleBuildingChange(event) {
-        this.setState({ value: event.target.value });
+    handleHouseChange(/* event */) {
+        store.dispatch({
+            type: 'ADD_BUILDING',
+            payload: 'house'
+        });
+        console.log(store.getState());
     }
 
-    handleSubmit(event) {
-        /* alert('Отправленное имя: ' + this.state.value); */
-        event.preventDefault();
+    handleGarageChange(/* event */) {
+        store.dispatch({
+            type: 'ADD_BUILDING',
+            payload: 'garage',
+        });
+
+        console.log(store.getState());
+    }
+
+    handleBuildingSubmit(submitEvent) {
+        submitEvent.preventDefault();
+        if (store.getState().buildingReducer.payload === 'house') {
+            return this.props.history.push('/floors')
+        } else if (store.getState().buildingReducer.payload === 'garage') {
+            return this.props.history.push('/material')
+        } else
+            return this.props.history.push('/error')
     }
 
     render() {
         return (
             <div>
-
-
-                <form onSubmit={this.handleSubmit}>
+                <form className="formStyle" onSubmit={this.handleBuildingSubmit}>
                     <label>
-                        <h1>Калькулятор цены конструкций</h1>
-                        <p className="step">Шаг 1</p>
+
+                        <h3 className="step">Шаг 1</h3>
                     </label>
-                    <table >
-                        <tr><th>Что будем строить?</th></tr>
-                        <tr><td>
-                            <ul>
-                                <div class="radio">
-                                    <label><input type="radio" name="house" value="house" onChange={this.handleBuildingChange} />Жилой дом</label>
-                                </div>
+                    <div className="container">
+                        <header>Что будем строить?</header>
 
-                                <div class="radio">
-                                    <label><input type="radio" name="garage" value="garage" onChange={this.handleBuildingChange} />Гараж</label>
-                                </div>
-                            </ul>
-                        </td></tr>
-                    </table>
-                    <Link to="/floors"><button className="next-but" type="submit">Далее</button></Link>
+                        <div className="bodyContent">
+
+                            <div className="radio">
+                                <label>
+                                    <Checkbox type="radio"
+                                        value="house"
+                                        onChange={this.handleHouseChange} />Жилой дом</label>
+                            </div>
+
+                            <div className="radio">
+                                <label>
+                                    <Checkbox type="radio"
+                                        value="garage"
+                                        onChange={this.handleGarageChange} />Гараж</label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="button">
+                        <Button variant="contained" color="primary" className="btn btn-default" type="submit" /* onClick={inc} */>Далее</Button>
+                    </div>
                 </form>
-                {/* <button className="cancel-but">Отмена</button> */}
-
+                {/* <button className="btn cancel-btn">Отмена</button> */}
             </div>
         )
     }
 }
+
+/* const mapStateToProps = (state) => {
+    return{
+        counter: state
+    }
+}
+ */
+export default Building;/* connect(mapStateToProps, actions)(Building) */

@@ -1,48 +1,64 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import store from '../state/store';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 
 export default class Floors extends Component {
     constructor(props) {
         super(props);
-        this.state = { value: '' };
+        this.state = {
+            selectedFloor: 'floorsNum'
+        };
 
         this.handleFloorsChange = this.handleFloorsChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFloorsSubmit = this.handleFloorsSubmit.bind(this);
     }
+
 
     handleFloorsChange(event) {
-        this.setState({ value: event.target.value });
+        store.dispatch({
+            type: 'ADD_FLOORS',
+            payload: +event.target.value
+        });
+        console.log(store.getState());
     }
 
-    handleSubmit(event) {
-        /* alert('Отправленное имя: ' + this.state.value); */
-        event.preventDefault();
+
+    handleFloorsSubmit(submitEvent) {
+        submitEvent.preventDefault();
+        if (store.getState().floorsReducer !== 0) {
+            return this.props.history.push('/material')
+        } else
+            return this.props.history.push('/error')
+
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form className="formStyle" onSubmit={this.handleFloorsSubmit}>
                     <label>
-                        <h1>Калькулятор цены конструкций</h1>
-                        <p className="step">Шаг 2</p>
+                        <h3 className="step"> Шаг 2 </h3>
                     </label>
 
-                    <table >
-                        <tr><th>Количество этажей (число)</th></tr>
-                        <tr><td>
-                            <ul>
-                                <form>
-                                    <label>
-                                        <input type="number" min="0" onChange={this.handleFloorsChange} />
-                                    </label>
-                                </form>
-                            </ul>
-                        </td></tr>
-                    </table>
+                    <div className="container">
+                        <header>Количество этажей (число)</header>
+                        <div className="bodyContent inputContent">
+                            <label>
+                                <TextField type="number" min="1"
+                                    placeholder="1"
+                                    checked={this.state.selectedFloor === 'floorsNum'}
+                                    onChange={this.handleFloorsChange} />
+                            </label>
+                        </div>
+                    </div>
 
-                    <Link to="/building"><button className="cancel-but">Отмена</button></Link>
-                    <Link to="/material"><button className="next-but" type="submit"> Далее </button> </Link>
+                    <div className="button">
+                        <Link to="/building"><Button variant="contained" color="primary" className="btn cancel-btn">Отмена</Button></Link>
+                        <Button variant="contained" color="primary" className="btn btn-default" type="submit">Далее</Button>
+                    </div>
                 </form>
             </div>
         )
